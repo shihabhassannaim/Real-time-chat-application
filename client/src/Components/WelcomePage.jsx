@@ -1,6 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function WelcomePage() {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  console.log(userData);
+  const nav = useNavigate();
+  if (!userData) {
+    nav("/");
+  }
   return (
     <div class="flex items-center justify-center">
       <div class="text-sky-500 text-justify">

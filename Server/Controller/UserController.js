@@ -5,8 +5,7 @@ const bcrypt = require("bcrypt");
 
 const loginController = async (req, res) => {
   const { name, password } = req.body;
-  const user = UserModel.findOne({ name });
-
+  const user = await UserModel.findOne({ name });
   if (user && (await user.matchPassword(password))) {
     const response = {
       _id: user._id,
@@ -15,7 +14,8 @@ const loginController = async (req, res) => {
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     };
-    console.log(response);
+    res.send("success");
+
     res.json(response);
   } else {
     throw new Error("Invalid UserName or Password");
@@ -27,9 +27,10 @@ const registerController = async (req, res) => {
 
   if (!name || !email || !password) {
     res.send(400);
-    throw new Error("All fields are required");
+    throw new Error("All fields are required 2");
   }
   const userExist = await UserModel.findOne({ email });
+  
   if (userExist) {
     throw new Error("User already exists");
   }
